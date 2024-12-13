@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диагностика неисправностей</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Диагностика неисправностей</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="maintenance.html">Регламентные работы</a></li>
+                <li><a href="info.html">Справочная информация</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Выберите проблему</h2>
+            <div id="problem-selection">
+                <button class="problem-btn" data-problem="no-coffee">Кофе не подаётся</button>
+                <button class="problem-btn" data-problem="no-power">Машина не включается</button>
+                <button class="problem-btn" data-problem="water-issue">Проблемы с подачей воды</button>
+                <button class="problem-btn" data-problem="noise">Посторонние звуки</button>
+                <button class="problem-btn" data-problem="lights">Мигают индикаторы</button>
+                <button class="problem-btn" data-problem="other">Другая неисправность</button>
+            </div>
+            <div id="solution" style="display: none;">
+                <h3>Решение:</h3>
+                <p id="solution-text"></p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 Интерактивное руководство</p>
+    </footer>
+    <script src="js/diagnostics.js"></script>
+</body>
+</html>
