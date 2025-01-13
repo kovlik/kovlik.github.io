@@ -1,53 +1,111 @@
-const problemSolutions = {
-    "no-coffee": `
-        <ol>
-            <li>Проверьте уровень воды в резервуаре и добавьте воду, если она отсутствует.</li>
-            <li>Убедитесь, что фильтр для кофе не засорён. Если он засорён, промойте его под проточной водой.</li>
-            <li>Очистите носик подачи кофе, используя специальную щётку или зубочистку.</li>
-            <li>Попробуйте перезапустить кофемашину.</li>
-        </ol>
-    `,
-    "no-power": `
-        <ol>
-            <li>Проверьте, подключён ли прибор к сети.</li>
-            <li>Убедитесь, что розетка исправна, подключив к ней другой прибор.</li>
-            <li>Проверьте кабель питания на наличие повреждений.</li>
-            <li>Попробуйте заменить предохранитель в вилке, если это применимо.</li>
-        </ol>
-    `,
-    "water-issue": `
-        <ol>
-            <li>Проверьте уровень воды в резервуаре и добавьте воду при необходимости.</li>
-            <li>Убедитесь, что трубки подачи воды не засорены. Очистите их, если это нужно.</li>
-            <li>Проверьте работу насоса. Если он не работает, обратитесь в сервисный центр.</li>
-        </ol>
-    `,
-    "noise": `
-        <ol>
-            <li>Убедитесь, что кофемашина стоит на ровной поверхности.</li>
-            <li>Проверьте, нет ли посторонних предметов в механизме кофемашины.</li>
-            <li>Если шум продолжается, выключите машину и обратитесь в сервисный центр.</li>
-        </ol>
-    `,
-    "lights": `
-        <ol>
-            <li>Обратитесь к руководству пользователя для расшифровки мигающих индикаторов.</li>
-            <li>Очистите кофемашину, если индикатор указывает на необходимость очистки.</li>
-            <li>При необходимости выполните удаление накипи.</li>
-        </ol>
-    `,
-    "other": `
-        <p>Рекомендуем обратиться в сервисный центр для диагностики и устранения проблемы.</p>
-    `
+const diagnosticsData = {
+    notStarting: {
+        question: "Есть питание в розетке?",
+        answers: {
+            yes: {
+                question: "Включатель в положении включено??",
+                answers: {
+                    yes: {
+                        question: "Есть ли индикаторные огни?",
+                        answers: {
+                            yes: "Машинка работает.",
+                            no: "Обратитесь в сервисный центр."
+                        }
+                    },
+                    no: "Переведите включатель в режим включено."
+                }
+            },
+            no: "Проверить розетку или кабель питания."
+        }
+    },
+    noCoffee: {
+        question: "Есть ли вода в резервуаре?",
+        answers: {
+            yes: {
+                question: "Проверили фильтр?",
+                answers: {
+                    yes: {
+                        question: "Насос работает?",
+                        answers: {
+                            yes: "Обратиться в сервисный центр.",
+                            no: "Заменить насос."
+                        }
+                    },
+                    no: "Очистить или заменить фильтр."
+                }
+            },
+            no: "Добавить воду в резервуар."
+        }
+    },
+    noises: {
+        question: "Шумит кофемолка?",
+        answers: {            
+            yes: "Очистить кофемолку от остатков.",
+            no: {
+                question: "Посторонние звуки в насосе?",
+                answers: {
+                    yes: "Заменить насос.",
+                    no: {
+                        question: "Шумят соединения?",
+                        answers: {
+                            yes: "Подтянуть соединения.",
+                            no: "Обратиться в сервисный центр."
+                        }
+                    }
+                }
+            }
+        }
+    },
+    leaks: {
+        question: "Проверили уплотнители?",
+        answers: {
+            yes: {
+                question: "Есть ли повреждения уплотнителей?",
+                answers: {
+                    yes: "Заменить уплотнители.",
+                    no: {
+                        question: "Проверили соединения шлангов?",
+                        answers: {
+                            yes: "Подтянуть или заменить соединения.",
+                            no: "Обратиться в сервисный центр."
+                        }
+                    }
+                }
+            },
+            no: "Проверить корпус на трещины."
+        }
+    }
 };
 
-document.querySelectorAll('.problem-btn').forEach(button => {
-    button.addEventListener('click', event => {
-        const problemKey = event.target.dataset.problem;
-        const solutionContainer = document.getElementById('solution');
-        const solutionText = document.getElementById('solution-text');
+let currentDiagnosis = null;
 
-        solutionText.innerHTML = problemSolutions[problemKey] || '<p>Неизвестная проблема. Попробуйте выбрать другой вариант.</p>';
-        solutionContainer.style.display = 'block';
-    });
-});
+function startDiagnosis(issue) {
+    currentDiagnosis = diagnosticsData[issue];
+    document.getElementById("diagnostics-tree").classList.remove("hidden");
+    navigateDiagnosis(currentDiagnosis);
+}
+
+function navigateDiagnosis(node) {
+    const questionElement = document.getElementById("question");
+    const answersElement = document.getElementById("answers");
+
+    questionElement.textContent = node.question;
+    answersElement.innerHTML = "";
+
+    if (node.answers) {
+        Object.keys(node.answers).forEach(answer => {
+            const button = document.createElement("button");
+            button.textContent = answer === "yes" ? "Да" : "Нет";
+            button.onclick = () => {
+                const nextNode = node.answers[answer];
+                if (typeof nextNode === "string") {
+                    questionElement.textContent = nextNode;
+                    answersElement.innerHTML = "";
+                } else {
+                    navigateDiagnosis(nextNode);
+                }
+            };
+            answersElement.appendChild(button);
+        });
+    }
+}
