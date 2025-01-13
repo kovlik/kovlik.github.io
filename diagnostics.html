@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Диагностика неисправностей</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/diagnostics.js"></script>
 </head>
 <body>
     <header>
-        <h1>Диагностика неисправностей</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Главная</a></li>
@@ -19,24 +19,23 @@
     </header>
     <main>
         <section>
-            <h2>Выберите проблему</h2>
-            <div id="problem-selection">
-                <button class="problem-btn" data-problem="no-coffee">Кофе не подаётся</button>
-                <button class="problem-btn" data-problem="no-power">Машина не включается</button>
-                <button class="problem-btn" data-problem="water-issue">Проблемы с подачей воды</button>
-                <button class="problem-btn" data-problem="noise">Посторонние звуки</button>
-                <button class="problem-btn" data-problem="lights">Мигают индикаторы</button>
-                <button class="problem-btn" data-problem="other">Другая неисправность</button>
-            </div>
-            <div id="solution" style="display: none;">
-                <h3>Решение:</h3>
-                <p id="solution-text"></p>
+            <h2>Диагностика неисправностей</h2>
+            <p>Выберите одну из следующих неисправностей для начала диагностики:</p>
+            <ul id="issues-list">
+                <li><button onclick="startDiagnosis('notStarting')">Кофемашина не включается</button></li>
+                <li><button onclick="startDiagnosis('noCoffee')">Кофе не подаётся</button></li>
+                <li><button onclick="startDiagnosis('noises')">Посторонние шумы</button></li>
+                <li><button onclick="startDiagnosis('leaks')">Утечка воды</button></li>
+            </ul>
+            <div id="diagnostics-tree" class="hidden">
+                <h3>Диагностическое дерево</h3>
+                <p id="question"></p>
+                <div id="answers"></div>
             </div>
         </section>
     </main>
     <footer>
         <p>© 2024 Интерактивное руководство</p>
     </footer>
-    <script src="js/diagnostics.js"></script>
 </body>
 </html>
