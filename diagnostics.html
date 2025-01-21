@@ -6,14 +6,31 @@
     <title>Диагностика неисправностей</title>
     <link rel="stylesheet" href="css/styles.css">
     <script defer src="js/diagnostics.js"></script>
+    <style>
+        /* Общий стиль для центровки */
+        .diagnostics-section {
+            text-align: center;
+            margin-top: 20px;
+            display: none; /* По умолчанию скрыты */
+        }
+
+        /* Стили для кнопок */
+        button {
+            margin: 10px;
+            padding: 10px 20px; /* Увеличение ширины */
+            font-size: 16px;
+            cursor: pointer;    
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Диагностика неисправностей</h1>    
+        <h1>Диагностика неисправностей</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Главная</a></li>
                 <li><a href="maintenance.html">Регламентные работы</a></li>
+                <li><a href="user_guide.html">Руководство пользователя</a></li>
                 <li><a href="info.html">Справочная информация</a></li>
             </ul>
         </nav>
@@ -23,16 +40,31 @@
             <h2>Диагностика неисправностей</h2>
             <p>Выберите одну из следующих неисправностей для начала диагностики:</p>
             <ul id="issues-list">
-                <li><button class="collapsible" onclick="startDiagnosis('notStarting')">Кофемашина не включается</button></li>
-                <li><button class="collapsible" onclick="startDiagnosis('noCoffee')">Кофе не подаётся</button></li>
-                <li><button class="collapsible" onclick="startDiagnosis('noises')">Посторонние шумы</button></li>
-                <li><button class="collapsible" onclick="startDiagnosis('leaks')">Утечка воды</button></li>
+                <li>
+                    <button class="collapsible" onclick="startDiagnosis('notStarting', 'section-notStarting')">
+                        Кофемашина не включается
+                    </button>
+                    <section id="section-notStarting" class="diagnostics-section"></section>
+                </li>
+                <li>
+                    <button class="collapsible" onclick="startDiagnosis('noCoffee', 'section-noCoffee')">
+                        Кофе не подаётся
+                    </button>
+                    <section id="section-noCoffee" class="diagnostics-section"></section>
+                </li>
+                <li>
+                    <button class="collapsible" onclick="startDiagnosis('noises', 'section-noises')">
+                        Посторонние шумы
+                    </button>
+                    <section id="section-noises" class="diagnostics-section"></section>
+                </li>
+                <li>
+                    <button class="collapsible" onclick="startDiagnosis('leaks', 'section-leaks')">
+                        Утечка воды
+                    </button>
+                    <section id="section-leaks" class="diagnostics-section"></section>
+                </li>
             </ul>
-            <div id="diagnostics-tree" class="hidden">
-                <h3>Диагностическое дерево</h3>
-                <p id="question"></p>
-                <div id="answers"></div>
-            </div>
         </section>
     </main>
     <footer>
@@ -40,3 +72,4 @@
     </footer>
 </body>
 </html>
+    
